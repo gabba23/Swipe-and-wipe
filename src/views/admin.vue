@@ -16,12 +16,9 @@
       </v-btn>
       </v-snackbar>
 
-
-
-
         <v-row>
-            <v-col offset-md="1" md="5">
-                <h1>Current bagels in menu items</h1>
+            <v-col offset-md="2" md="8">
+                <h1>Current Toilet papers in menu items</h1>
                 <div class="pa-2" id="info">
                     <v-simple-table id="menu-table">
                         <template v-slot:default>
@@ -64,92 +61,39 @@
                       </v-simple-table>
                 </div>
             </v-col>
-            <v-col offset-md="1" md="4">
-                <h1>Current Basket</h1>
-                <div class="pa-2" id="info">
-                    <v-simple-table id="menu-table" v-if="basket.length > 0">
-                        <template v-slot:default>
-                          <thead>
-                            <tr>
-                              <th class="text-left" stlye="width: 30%">Quantity</th>
-                              <th class="text-left" style="width: 50%;">Name of an item</th>
-                              <th class="text-left" style="width: 20%;">Price</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="item in basket" :key="item.name">
-                              <td>
-                                <v-icon color="orange" @click="increaseQtn(item)">add_box</v-icon>
-                                    {{item.quantity}}
-                                <v-icon color="orange" @click="decreaseQtn(item)">indeterminate_check_box</v-icon>
-                              </td>
-                              <td>{{ item.name }}</td>
-                              <td>{{ item.price }}</td>
-                            </tr>
-                          </tbody>
-                        </template>
-                      </v-simple-table>
-
-                      <v-simple-table v-else>
-                          <p>The basket is empty</p>
-                      </v-simple-table>
-
-                      <v-divider></v-divider>
-                      <v-row id="basket_checkout" class="mt-4" style=" margin:0;">
-                          <v-col>
-                            <p>Subtotal:</p>
-                            <p>Delivery:</p>
-                            <p>Total amount:</p>
-                          </v-col>
-                          <v-col class="text-right">
-                              <p> {{ subTotal }} DKK</p>
-                              <p>10 DKK</p>
-                              <p><b> {{total}}  DKK</b></p>
-                          </v-col>
-                      </v-row>
-                      <v-row style="margin:0;">
-                        <v-spacer></v-spacer>
-                        <v-btn color="orange">Chekcout</v-btn>
-                      </v-row>
-                </div>
-            </v-col>
+            
         </v-row>
         <v-row>
           <v-dialog
-      v-model="dialog"
-      max-width="400"
-    >
+            v-model="dialog"
+            max-width="400"
+                          >
       <v-card>
        
 
-        <h1>Edit item</h1>
-                <div class="pa-5" id="info">
-                    <v-text-field  v-model="item.name"></v-text-field>
-                    <v-text-field  v-model="item.description"></v-text-field>
-                    <v-text-field  v-model="item.price"></v-text-field>
-                    <v-btn
-                    color="complete"
-                    @click="updateItem()"
-                    @click.stop="dialog = false"
-                    >
-                      Edit Item
-                    </v-btn>
-                    <v-btn
-                    color="incomplete"
-                    @click.stop="dialog = false"
-                    >
-                      Close
-                    </v-btn>
-                </div>
-
-
-
-      </v-card>
-    </v-dialog>
+            <h1>Edit item</h1>
+            <div class="pa-5" id="info">
+                <v-text-field  v-model="item.name"></v-text-field>
+                <v-text-field  v-model="item.description"></v-text-field>
+                <v-text-field  v-model="item.price"></v-text-field>
+                <v-btn
+                color="complete"
+                @click="updateItem()"
+                @click.stop="dialog = false"
+                >
+                  Edit Item
+                </v-btn>
+                <v-btn
+                color="incomplete"
+                @click.stop="dialog = false"
+                >
+                  Close
+                </v-btn>
+              </div>
+            </v-card>
+          </v-dialog>
         </v-row>
-        <v-footer app>
-          <span>&copy; 2020</span>
-        </v-footer>
+      
     </v-container>
     
 </template>
@@ -202,47 +146,14 @@ import { dbMenuAdd } from '@/firebase';
           console.error("Error deleting: ", error);
         });
       },
-      addToBasket(item) {
-          if(this.basket.find(itemInArray => item.name === itemInArray.name)) {
-              item = this.basket.find(itemInArray => item.name === itemInArray.name);
-              this.increaseQtn(item);
-          }
-          else {
-              this.basket.push({
-                  name: item.name,
-                  price: item.price,
-                  quantity: 1
-              }) 
-        }
-        },
-        increaseQtn(item) {
-            item.quantity++
-        },
-        decreaseQtn(item) {
-            item.quantity--;
 
-            if( item.quantity === 0 ) {
-                this.basket.splice(this.basket.indexOf(item), 1)
-            }
-        }
+      
     },
     computed: {
       menuItems() {
         return this.$store.getters.getMenuItems
       },
-        subTotal () {
-            var subCost = 0;
-            for(var items in this.basket) {
-                var individualItem = this.basket[items];
-                subCost += individualItem.quantity * individualItem.price;
-            }
-            return subCost
-        },
-        total () {
-            var deliveryPrice = 10;
-            var totalCost = this.subTotal;
-            return totalCost + deliveryPrice
-        }
+       
     }
   }
 </script>

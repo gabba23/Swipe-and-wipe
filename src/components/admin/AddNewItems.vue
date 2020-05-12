@@ -1,11 +1,12 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col offset-md="1" md="5">
+    <v-container fluid>
+        <v-row align="center"
+               justify="center">
+            <v-col offset-md="1" md="4">
                 <h1>Add new item</h1>
                 <div class="pa-2" id="info">
                     <v-text-field
-                    label="Name of bagel"
+                    label="Name of Toilet Paper"
                     required
                     v-model="name"
                     >
@@ -38,30 +39,7 @@
                     </v-btn>
                 </div>
             </v-col>
-            <v-col offset-md="1" md="4">
-                <h1>Current Basket</h1>
-                <div class="pa-2" id="info">
-                    
-                   <v-simple-table id="menu-table">
-                      <thead>
-                        <tr>
-                          <th class="text-left" style="width: 70%">Name</th>
-                          <th class="text-left" style="width: 100%">Price DKK</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <span id="td_name">{{name}}</span> <br>
-                            <span id="menu_item_description">{{description}}</span>
-                          </td>
-                          <td id="preview_menuitem_price">{{price}}</td>
-                        </tr>
-                      </tbody>
-                   </v-simple-table>
-               
-                </div>
-            </v-col>
+            
         </v-row>
     </v-container>
 </template>

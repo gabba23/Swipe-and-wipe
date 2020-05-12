@@ -1,6 +1,31 @@
 <template>
-  <v-container>
-    
+      <v-container fluid
+      ma-0
+      pa-0>
+        <v-parallax
+        height="800"
+        src="../assets/tp_background.jpg"
+        >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col class="text-center" cols="12">
+            <v-img src="../assets/tp.png" class="logo"></v-img>
+
+            <hr class="line">
+            <br>
+            <h2 class="subheading">Get our best toilet paper for your bum!</h2>
+
+            <v-btn class="ma-6" outlined color="white" to="/menu">See menu</v-btn>
+          </v-col>
+        </v-row>
+
+
+        </v-parallax>
+        
+        
+
     <v-row>
       <v-col class="xs-12" wrap>
         <v-carousel>
@@ -12,31 +37,103 @@
           <div class="title">
             {{ kebab.title }}
           </div>
-          <div class="text-center" id="bottom">
-          <v-btn color="#415764" to="/menu">
-            See menu
-          </v-btn>
-        </div>
-       
+         
           </v-carousel-item>
         </v-carousel>
       </v-col>
     </v-row>
+
+    <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col class="text-center" cols="12">
+           
+          
+            <br>
+            <h2 class="subheading">Best featured products of our Swipe and wipe toilet paper!</h2>
+            <hr class="line">
+            
+          </v-col>
+        </v-row>
+
+  
+    <main id="app" @mousemove="mousemove">
+      <section class="products">
+        <product 
+        v-for="product in products"
+        :key="product.color"
+        :product="product"
+        />
+      </section>
+    </main>
+
+
   </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import Product from '../components/Product'
+
+
 
 export default {
+  components: {
+    Product
+  },
   data () {
     return {
+      isActive: false,
       kebabs: [
-      { imageUrl: 'https://c.tfstatic.com/w_656,h_368,c_fill,g_auto:subject,q_auto,f_auto/restaurant_photos/489/543489/source/turkish-doner-kebab-kebab-9ba1e.jpg', id: '1', title: 'yeet'},
-      { imageUrl: 'https://prod-wolt-venue-images-cdn.wolt.com/5dfa30a6c61a194bfdd4cec9/785da302-35fe-11ea-b1c3-0a5864709e55_NewsKebab_menu-3970.jpg', id: '1', title: 'yeet'},
-      { imageUrl: 'https://dk-spisbedre-production.imgix.net/images/recipes/kebab-i-pitabrod-med-gront-og-dressing_659.jpg?fit=crop&crop=focalpoint&fp-x=0.5&fp-y=0.3934326171875&fp-z=1&w=1200&h=628', id: '1', title: 'yeet'},
+      { imageUrl: 'https://www.jetsetter.com/uploads/sites/7/2020/04/GettyImages-1131645709.jpg', id: '1', title: 'Toilet paper is love'},
+      { imageUrl: 'https://i.cbc.ca/1.5536275.1587145935!/cumulusImage/httpImage/toilet-paper.jpg', id: '1', title: 'Toilet paper is life'},
+      { imageUrl: 'https://i.insider.com/550b24a46da8115622cd5ecd?width=1100&format=jpeg&auto=webp', id: '1', title: 'Love your bum'},
+      ],
+      products: [
+        {
+          title: 'Swipe and wipe premium',
+          color: 'green',
+          bgtext: 'SW',
+          src: require('../assets/tp_1.png')
+        },
+        {
+          title: 'Swipe and wipe supreme',
+          color: 'blue',
+          bgtext: 'SW',
+          src: require('../assets/tp_4.png')
+        },
+        {
+          title: 'Swipe and wipe beginners',
+          color: 'pink',
+          bgtext: 'SW',
+          src: require('../assets/tp_supreme.png')
+        },
+        
       ]
+    }
+  },
+  methods: {
+    mousemove (e) {
+      let mouseX = e.clientX;
+      let mouseY = e.clientY;
+      let products = document.querySelectorAll('.products .product');
+      for (let i = 0; i < products.length; i++) {
+        let product = products[i];
+        let product_image = product.querySelector('.product-image-wrap');
+        let img_x = mouseX - this.coords(product_image).x;
+        let img_y = mouseY - this.coords(product_image).y;
+        product_image.style.transform = `translateY(-${img_y/40}px) translateX(-${img_x/40}px) translateZ(100px)`;
+        let bgtext = product.querySelector('.bg-text');
+        let bg_x = mouseX - this.coords(bgtext).x;
+        bgtext.style.transform = `translateX(${bg_x/25}px)`;
+      }
+    },
+    coords (el) {
+      let coords = el.getBoundingClientRect();
+      return {
+        x: coords.left / 2,
+        y: coords.top / 2
+      }
     }
   }
 }
@@ -44,6 +141,28 @@ export default {
 
 
 <style lang="scss">
+
+  .line {
+    height: 4px;
+    background-color: white;
+    color: white;
+    max-width: 30%;
+    display: block;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+    .logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 20%;
+      height: auto;
+    }
+
+
    .info_box .flex h1{
     border: 5px solid #ffffff;
     padding: 5px;
@@ -92,4 +211,31 @@ export default {
   padding-bottom: 50px;
   }
 
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'monsteratt', sans-serif;
+  }
+
+  main {
+    width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #171717;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .products {
+    display: flex;
+    max-width: 1280px;
+    padding: 25px;
+    margin: 0 auto;
+  }
+    
 </style>

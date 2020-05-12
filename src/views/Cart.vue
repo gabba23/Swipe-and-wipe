@@ -1,38 +1,55 @@
 <template>
-    <v-container fluid>
-        <v-row align="center"
-              justify="center">
+    <v-container  fluid>
+     <v-row align="center"
+     justify="center">
+            <v-col offset-md="6" md="4">
+                <h1>Current Basket</h1>
+                <div class="pa-2" id="info">
+                    <v-simple-table id="menu-table" > <!-- v-if="basket.length > 0" -->
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th class="text-left" stlye="width: 30%">Quantity</th>
+                              <th class="text-left" style="width: 50%;">Name of an item</th>
+                              <th class="text-left" style="width: 20%;">Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="item in basket" :key="item.name">
+                              <td>
+                                <v-icon color="orange" @click="increaseQtn(item)">add_box</v-icon>
+                                    {{item.quantity}}
+                                <v-icon color="orange" @click="decreaseQtn(item)">indeterminate_check_box</v-icon>
+                              </td>
+                              <td>{{ item.name }}</td>
+                              <td>{{ item.price }}</td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
 
-            <v-col offset-md="6" md="8">
-                <h1>The toilet papers</h1>
-                <div class="pa-2" id="info" >
-                <v-container class="image_height" fill-height fluid>
-                  <v-row no-gutters >
-                    <v-col
-                      cols="12"
-                      sm="4"
-                      v-for="item in menuItems" :key="item.name"
-                    >
-                      <v-card
-                        class="pa-2 ma-2"
-                        style="overflow-y: auto; height:550px"
-                      >
-                        <v-img class="image_height" v-bind:src="item.image" ></v-img>
-                        <span id="td_name" > {{ item.name }} </span> <br>
-                        <span id="menu_item_description" > {{ item.description }} </span> 
-                        <v-divider></v-divider>
-                        <p class="mt-6">{{ item.price }} kr.</p>
-                          <v-btn small text @click="addToBasket(item)" color="warning" dark class="mt-12">
-                            Add to cart
-                              <v-icon color="orange">
-                                  add_shopping_cart
-                              </v-icon>
-                          </v-btn>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </div>
+                      <v-simple-table >  <!-- v-else -->
+                          <p>The basket is empty</p>
+                      </v-simple-table>
+
+                      <v-divider></v-divider>
+                      <v-row id="basket_checkout" class="mt-4" style=" margin:0;">
+                          <v-col>
+                            <p>Subtotal:</p>
+                            <p>Delivery:</p>
+                            <p>Total amount:</p>
+                          </v-col>
+                          <v-col class="text-right">
+                              <p> {{ subTotal }} DKK</p>
+                              <p>10 DKK</p>
+                              <p><b> {{total}}  DKK</b></p>
+                          </v-col>
+                      </v-row>
+                      <v-row style="margin:0;">
+                        <v-spacer></v-spacer>
+                        <v-btn color="#415764" @click="addCheckOutItem()">Chekcout</v-btn>
+                      </v-row>
+                </div>
             </v-col>
         </v-row>
     </v-container>
@@ -48,23 +65,7 @@ import { dbMenuAdd } from '../firebase';
     data () {
       return {
         basketDump: [],
-        alignmentsAvailable: [
-          'start',
-          'center',
-          'end',
-          'baseline',
-          'stretch',
-        ],
-        alignment: 'center',
-        dense: false,
-        justifyAvailable: [
-          'start',
-          'center',
-          'end',
-          'space-around',
-          'space-between',
-        ],
-         justify: 'center',
+        
         
       }
     },
@@ -181,6 +182,88 @@ import { dbMenuAdd } from '../firebase';
     #basket_checkout p:first-child {
         line-height: 2px;
     }
+
+
+
+
+ .products{
+        margin-top: 7rem;
+        
+        padding-bottom: 3rem;
+    }
+
+
+
+
+
+
+
+
+     .product {
+    flex: 1 1 33.333%;
+    width: 100%;
+    padding: 25px;
+  }
+  .product-inner {
+    position: relative;
+    padding: 25px;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+    perspective: 1000px;
+  }
+  .product-inner.green {
+    background-image: linear-gradient(to bottom right, #24D484, #116432);
+  }
+  .product-inner.blue {
+    background-image: linear-gradient(to bottom left, #24D484, #2474C4 70%);
+  }
+  .product-inner.pink {
+    background-image: linear-gradient(to bottom right, #F444A4, #1168D4);
+  }
+  .product-text-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+    perspective: 1000px;
+  }
+  
+  .product-text-wrap h2 {
+    color: #313131;
+    font-size: 128px;
+    font-weight: 900;
+    opacity: 0.2;
+    transform-origin: center;
+  }
+  .product-image-wrap {
+    position: relative;
+    z-index: 1;
+    transform-origin: center;
+  }
+  .product-image-wrap .image {
+    width: 100%;
+    filter: drop-shadow(0px 0px 12px rgba(0, 0, 0, 0.25));
+  }
+  .product-detail {
+    background-color: #FFF;
+    padding: 25px;
+    margin: 0px -25px -25px;
+  }
+  .product-detail h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #676767;
+    margin-bottom: 15px;
+  }
+  .product-detail p {
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: #676767;
+  }
+
 
 
   * {

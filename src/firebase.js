@@ -20,3 +20,38 @@ import 'firebase/storage'
   export const db = firebase.firestore()
   export const dbMenuAdd = db.collection('menuItems');
   export const dbOrders = db.collection('orderItems');
+
+/*
+
+//eslint-disable-next-line
+  const submitBtn = document.querySelector("#submit");
+
+  let userName = document.querySelector("#userFullName");
+  let userEmail = document.querySelector("#userEmail");
+  let userMessage = document.querySelector("#userMessage");
+
+  export const contact = db.collection("contactData");
+
+  document.getElementById("submit").addEventListener("click", function(){
+    //submitBtn.addEventListener("click", function() { 
+      let userNameInput = userName.value;
+      let userEmailInput = userEmail.value;
+      let userMessageInput = userMessage.value;
+  
+     //Access Database
+     contact.doc()
+       .set({
+      name: userNameInput,
+      email: userEmailInput,
+      message: userMessageInput
+     })
+     .then(function() {
+      console.log("Data Saved");
+       })
+     .catch(function(error) {
+      console.log(error);
+     });
+    });
+
+
+    */

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Menu from '../views/Menu.vue'
+import Cart from '../views/Cart.vue'
 import Admin from '../views/admin.vue'
 import Orders from '../views/Orders.vue'
 import AddNewItems from '../components/admin/AddNewItems.vue'
@@ -23,11 +24,17 @@ const routes = [
     component: Menu
   },
   {
+    path: '/cart',
+    name: 'cart',
+    component: Cart
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
+    //eslint-disable-next-line
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
